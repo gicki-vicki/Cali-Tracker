@@ -217,11 +217,33 @@ input:focus, select:focus {
     flex: 1;
 }
 
+.help-text {
+    font-size: 0.8rem;
+    color: #888;
+    margin-top: 4px;
+    font-style: italic;
+}
+
+.difficulty-badge {
+    display: inline-block;
+    background: #e9ecef;
+    color: #495057;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    margin-left: 8px;
+    font-weight: 500;
+}
+
 .workout-name {
     font-weight: 600;
     color: #333;
     font-size: 1.1rem;
     margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
 }
 
 .workout-details {
@@ -448,8 +470,21 @@ input:focus, select:focus {
         width: 100%;
     }
     
+    .help-text {
+        font-size: 0.75rem;
+    }
+    
+    .difficulty-badge {
+        font-size: 0.7rem;
+        padding: 1px 6px;
+        margin-left: 4px;
+    }
+    
     .workout-name {
         font-size: 1rem;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
     }
     
     .workout-details {
