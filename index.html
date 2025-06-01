@@ -116,7 +116,145 @@
     <!-- Success Toast -->
     <div id="toast" class="toast">
         <span id="toastMessage">Übung hinzugefügt!</span>
-    </div>
+    </div><!DOCTYPE html>
+    <html lang="de">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <meta name="apple-mobile-web-app-title" content="Fitness Tracker">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="theme-color" content="#667eea">
+        <meta name="msapplication-TileColor" content="#667eea">
+        <meta name="apple-touch-fullscreen" content="yes">
+        
+        <!-- Prevent text size adjustment -->
+        <meta name="format-detection" content="telephone=no">
+        
+        <!-- Preload critical resources -->
+        <link rel="preload" href="style.css" as="style">
+        <link rel="preload" href="script.js" as="script">
+        
+        <title>Fitness Tracker</title>
+        <link rel="stylesheet" href="style.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+        
+        <!-- PWA Icons -->
+        <link rel="apple-touch-icon" sizes="180x180" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgwIiBoZWlnaHQ9IjE4MCIgdmlld0JveD0iMCAwIDE4MCAxODAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxODAiIGhlaWdodD0iMTgwIiByeD0iNDAiIGZpbGw9InVybCgjZ3JhZGllbnQwX2xpbmVhcl8xXzEpIi8+CjxwYXRoIGQ9Ik00NSA2MEg2MFY5MEg0NVY2MFoiIGZpbGw9IndoaXRlIi8+CjxwYXRoIGQ9Ik03NSA0NUg5MFY3NUg3NVY0NVoiIGZpbGw9IndoaXRlIi8+CjxwYXRoIGQ9Ik0xMDUgNjBIMTIwVjkwSDEwNVY2MFoiIGZpbGw9IndoaXRlIi8+CjxwYXRoIGQ9Ik0xMzUgNDVIMTUwVjc1SDEzNVY0NVoiIGZpbGw9IndoaXRlIi8+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9ImdyYWRpZW50MF9saW5lYXJfMV8xIiB4MT0iMCIgeTE9IjAiIHgyPSIxODAiIHkyPSIxODAiIGdyYWRpZW50VW5pdHM9InVzZXJTcGFjZU9uVXNlIj4KPHN0b3Agc3RvcC1jb2xvcj0iIzY2N2VlYSIvPgo8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiM3NjRiYTIiLz4KPC9saW5lYXJHcmFkaWVudD4KPC9kZWZzPgo8L3N2Zz4K">
+        <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiByeD0iOCIgZmlsbD0idXJsKCNncmFkaWVudDBfbGluZWFyXzFfMSkiLz4KPHBhdGggZD0iTTggMTBIMTJWMTZIOFYxMFoiIGZpbGw9IndoaXRlIi8+CjxwYXRoIGQ9Ik0xNCA4SDE4VjE0SDE0VjhaIiBmaWxsPSJ3aGl0ZSIvPgo8cGF0aCBkPSJNMjAgMTBIMjRWMTZIMjBWMTBaIiBmaWxsPSJ3aGl0ZSIvPgo8ZGVmcz4KPGxpbmVhckdyYWRpZW50IGlkPSJncmFkaWVudDBfbGluZWFyXzFfMSIgeDE9IjAiIHkxPSIwIiB4Mj0iMzIiIHkyPSIzMiIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiPgo8c3RvcCBzdG9wLWNvbG9yPSIjNjY3ZWVhIi8+CjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzc2NGJhMiIvPgo8L2xpbmVhckdyYWRpZW50Pgo8L2RlZnM+Cjwvc3ZnPgo=">
+        
+        <!-- Web App Manifest -->
+        <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIkZpdG5lc3MgVHJhY2tlciIsCiAgInNob3J0X25hbWUiOiAiRml0bmVzcyIsCiAgImRlc2NyaXB0aW9uIjogIlZlcmZvbGdlIGRlaW5lIEZpdG5lc3MtRm9ydHNjaHJpdHRlIiwKICAic3RhcnRfdXJsIjogIi8iLAogICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLAogICJiYWNrZ3JvdW5kX2NvbG9yIjogIiM2NjdlZWEiLAogICJ0aGVtZV9jb2xvciI6ICIjNjY3ZWVhIiwKICAiaWNvbnMiOiBbCiAgICB7CiAgICAgICJzcmMiOiAiZGF0YTppbWFnZS9zdmcreG1sO2Jhc2U2NCxQSE4yWnlCM2FXUjBhRDBpTVRnd0lpQm9aV2xuYUhROUlqRTRNQ0lpSUhacFpYZENiM2c5SWpBZ01DQXhPREFnTVRnd0lpQm1hV3hzUFNKdWIyNWxJaUI0Yld4dWN6MGlhSFIwY0RvdkwzZDNkeTUzTXk1dmNtY3ZNakF3TUM5emRtY2lQZ289IiwKICAgICAgInNpemVzIjogIjE4MHgxODAiLAogICAgICAidHlwZSI6ICJpbWFnZS9zdmcreG1sIgogICAgfQogIF0sCiAgImNhdGVnb3JpZXMiOiBbImZpdG5lc3MiLCAiaGVhbHRoIl0sCiAgImxhbmciOiAiZGUiCn0=">
+    </head>
+    <body>
+        <div class="container">
+            <div class="header">
+                <h1>🏋️ Fitness Tracker</h1>
+                <p>Verfolge deine Fortschritte und erreiche deine Ziele</p>
+            </div>
+    
+            <div class="main-content">
+                <div class="form-section">
+                    <h2>Neue Übung hinzufügen</h2>
+                    
+                    <div class="type-toggle">
+                        <button type="button" id="repsBtn" class="active">Wiederholungen</button>
+                        <button type="button" id="timeBtn">Zeit</button>
+                    </div>
+    
+                    <form id="workoutForm">
+                        <div class="form-group">
+                            <label for="exerciseName">Übung:</label>
+                            <select id="exerciseName" required>
+                                <option value="">Übung auswählen...</option>
+                                <option value="Liegestütze">Liegestütze</option>
+                                <option value="Klimmzüge">Klimmzüge</option>
+                                <option value="Kniebeugen">Kniebeugen</option>
+                                <option value="Planks">Planks</option>
+                                <option value="Sit-ups">Sit-ups</option>
+                                <option value="Burpees">Burpees</option>
+                                <option value="Dips">Dips</option>
+                                <option value="Mountain Climbers">Mountain Climbers</option>
+                                <option value="Bankdrücken">Bankdrücken</option>
+                                <option value="Kreuzheben">Kreuzheben</option>
+                                <option value="Bizeps Curls">Bizeps Curls</option>
+                                <option value="Trizeps Dips">Trizeps Dips</option>
+                                <option value="custom">Eigene Übung...</option>
+                            </select>
+                        </div>
+    
+                        <div class="form-group" id="customExerciseGroup" style="display: none;">
+                            <label for="customExercise">Eigene Übung:</label>
+                            <input type="text" id="customExercise" placeholder="Name der Übung">
+                        </div>
+    
+                        <div class="form-group" id="repsGroup">
+                            <label for="reps">Wiederholungen:</label>
+                            <input type="number" id="reps" min="1" placeholder="z.B. 20">
+                        </div>
+    
+                        <div class="form-group" id="timeGroup" style="display: none;">
+                            <label for="duration">Zeit (Sekunden):</label>
+                            <input type="number" id="duration" min="1" placeholder="z.B. 60">
+                        </div>
+    
+                        <button type="submit" class="btn">Übung hinzufügen</button>
+                    </form>
+                </div>
+    
+                <div class="chart-section">
+                    <h2>Fortschritt</h2>
+                    <div class="form-group">
+                        <label for="chartExercise">Übung für Diagramm:</label>
+                        <select id="chartExercise">
+                            <option value="">Übung auswählen...</option>
+                        </select>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="progressChart"></canvas>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="history-section">
+                <h2>Trainingshistorie</h2>
+                <div class="filter-section">
+                    <button id="filterAll" class="filter-btn active">Alle</button>
+                    <button id="filterReps" class="filter-btn">Wiederholungen</button>
+                    <button id="filterTime" class="filter-btn">Zeit</button>
+                </div>
+                <div id="workoutHistory"></div>
+            </div>
+    
+            <!-- Stats Section -->
+            <div class="stats-section">
+                <h2>Statistiken</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number" id="totalWorkouts">0</div>
+                        <div class="stat-label">Trainings</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="totalExercises">0</div>
+                        <div class="stat-label">Übungen</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="currentStreak">0</div>
+                        <div class="stat-label">Tage Streak</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <!-- Success Toast -->
+        <div id="toast" class="toast">
+            <span id="toastMessage">Übung hinzugefügt!</span>
+        </div>
+    
+        <script src="script.js"></script>
+    </body>
+    </html>
 
     <script src="script.js"></script>
 </body>
