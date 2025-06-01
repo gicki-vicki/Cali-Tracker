@@ -1,16 +1,21 @@
 class FitnessTracker {
     constructor() {
-        // Use fallback storage if localStorage is not available
+        // Use session storage
         this.storage = this.initStorage();
-        this.workouts = this.loadWorkouts();
+        this.currentUser = null;
+        this.workouts = [];
         this.currentType = 'reps';
         this.chart = null;
         this.currentFilter = 'all';
         
-        this.initEventListeners();
-        this.updateDisplay();
-        this.updateChartExerciseOptions();
-        this.updateStats();
+        // Initialize user login system
+        this.initUserLogin();
+        
+        // If the user is already logged in, load their data
+        const savedUser = this.storage.getItem('fitness_current_user');
+        if (savedUser) {
+            this.setCurrentUser(savedUser);
+        }
     }
 
     initStorage() {
@@ -35,19 +40,76 @@ class FitnessTracker {
         }
     }
 
+    initUserLogin() {
+        const overlay = document.getElementById('userLoginOverlay');
+        const baerliBtn = document.getElementById('userBaerli');
+        const sonnenscheinBtn = document.getElementById('userSonnenschein');
+        const logoutButton = document.getElementById('logoutButton');
+        
+        // Show overlay if no user is logged in
+        if (!this.currentUser) {
+            overlay.style.display = 'flex';
+        } else {
+            overlay.style.display = 'none';
+        }
+        
+        // Bärli button click
+        baerliBtn.addEventListener('click', () => {
+            this.setCurrentUser('Bärli', '🐻');
+            overlay.style.display = 'none';
+        });
+        
+        // Sonnenschein button click
+        sonnenscheinBtn.addEventListener('click', () => {
+            this.setCurrentUser('Sonnenschein', '☀️');
+            overlay.style.display = 'none';
+        });
+        
+        // Logout button click
+        logoutButton.addEventListener('click', () => {
+            this.logoutUser();
+        });
+    }
+    
+    setCurrentUser(username, emoji) {
+        this.currentUser = username;
+        this.storage.setItem('fitness_current_user', username);
+        
+        // Update welcome message with emoji
+        document.getElementById('welcomeMessage').innerHTML = `${emoji} ${username}`;
+        
+        // Load user workouts
+        this.loadWorkouts();
+        
+        // Initialize other components
+        this.initEventListeners();
+        this.updateDisplay();
+        this.updateChartExerciseOptions();
+        this.updateStats();
+        
+        // Show welcome toast
+        this.showToast(`Willkommen, ${username}! ${emoji}`, 'success');
+    }
+    
+    logoutUser() {
+        this.storage.removeItem('fitness_current_user');
+        this.currentUser = null;
+        document.getElementById('userLoginOverlay').style.display = 'flex';
+    }
+
     loadWorkouts() {
         try {
-            const data = this.storage.getItem('fitness_workouts');
-            return data ? JSON.parse(data) : [];
+            const data = this.storage.getItem(`fitness_workouts_${this.currentUser}`);
+            this.workouts = data ? JSON.parse(data) : [];
         } catch (e) {
             console.error('Error loading workouts:', e);
-            return [];
+            this.workouts = [];
         }
     }
 
     saveWorkouts() {
         try {
-            this.storage.setItem('fitness_workouts', JSON.stringify(this.workouts));
+            this.storage.setItem(`fitness_workouts_${this.currentUser}`, JSON.stringify(this.workouts));
         } catch (e) {
             console.error('Error saving workouts:', e);
             this.showToast('Fehler beim Speichern!', 'error');
@@ -558,14 +620,15 @@ class FitnessTracker {
         const data = {
             workouts: this.workouts,
             exportDate: new Date().toISOString(),
-            version: '1.0'
+            version: '1.0',
+            user: this.currentUser
         };
         
         const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = `fitness-tracker-backup-${new Date().toISOString().split('T')[0]}.json`;
+        a.download = `fitness-tracker-${this.currentUser}-${new Date().toISOString().split('T')[0]}.json`;
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
