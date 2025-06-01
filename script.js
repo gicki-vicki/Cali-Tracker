@@ -161,6 +161,7 @@ class FitnessTracker {
     addWorkout() {
         const exerciseSelect = document.getElementById('exerciseName');
         const customExercise = document.getElementById('customExercise');
+        const difficultyInput = document.getElementById('difficulty');
         const repsInput = document.getElementById('reps');
         const durationInput = document.getElementById('duration');
 
@@ -191,9 +192,12 @@ class FitnessTracker {
             return;
         }
 
+        const difficulty = difficultyInput?.value?.trim() || '';
+
         const workout = {
             id: Date.now() + Math.random(), // More unique ID
             exercise: exerciseName,
+            difficulty: difficulty,
             type: this.currentType,
             value: value,
             date: new Date().toISOString()
@@ -261,20 +265,29 @@ class FitnessTracker {
 
         const sortedWorkouts = filteredWorkouts.sort((a, b) => new Date(b.date) - new Date(a.date));
         
-        historyDiv.innerHTML = sortedWorkouts.map(workout => `
-            <div class="workout-entry">
-                <div class="workout-info">
-                    <div class="workout-name">${this.escapeHtml(workout.exercise)}</div>
-                    <div class="workout-details">
-                        ${workout.value} ${workout.type === 'reps' ? 'Wiederholungen' : 'Sekunden'}
+        historyDiv.innerHTML = sortedWorkouts.map(workout => {
+            const difficultyBadge = workout.difficulty 
+                ? `<span class="difficulty-badge">${this.escapeHtml(workout.difficulty)}</span>` 
+                : '';
+            
+            return `
+                <div class="workout-entry">
+                    <div class="workout-info">
+                        <div class="workout-name">
+                            <span>${this.escapeHtml(workout.exercise)}</span>
+                            ${difficultyBadge}
+                        </div>
+                        <div class="workout-details">
+                            ${workout.value} ${workout.type === 'reps' ? 'Wiederholungen' : 'Sekunden'}
+                        </div>
+                        <div class="workout-date">${this.formatDate(workout.date)}</div>
                     </div>
-                    <div class="workout-date">${this.formatDate(workout.date)}</div>
+                    <button class="delete-btn" onclick="tracker.deleteWorkout('${workout.id}')">
+                        🗑️
+                    </button>
                 </div>
-                <button class="delete-btn" onclick="tracker.deleteWorkout('${workout.id}')">
-                    🗑️
-                </button>
-            </div>
-        `).join('');
+            `;
+        }).join('');
     }
 
     updateChartExerciseOptions() {
@@ -321,6 +334,7 @@ class FitnessTracker {
 
         const labels = exerciseWorkouts.map(w => this.formatDate(w.date, true));
         const data = exerciseWorkouts.map(w => w.value);
+        const difficulties = exerciseWorkouts.map(w => w.difficulty || '');
         const type = exerciseWorkouts[0]?.type || 'reps';
 
         const ctx = canvas.getContext('2d');
@@ -378,14 +392,24 @@ class FitnessTracker {
                             },
                             afterLabel: (context) => {
                                 const index = context.dataIndex;
+                                const difficulty = difficulties[index];
+                                const lines = [];
+                                
+                                if (difficulty) {
+                                    lines.push(`Schwierigkeit: ${difficulty}`);
+                                }
+                                
                                 if (index > 0) {
                                     const current = context.parsed.y;
                                     const previous = data[index - 1];
                                     const change = current - previous;
                                     const changeText = change > 0 ? `+${change}` : `${change}`;
-                                    return change !== 0 ? `Veränderung: ${changeText}` : '';
+                                    if (change !== 0) {
+                                        lines.push(`Veränderung: ${changeText}`);
+                                    }
                                 }
-                                return '';
+                                
+                                return lines;
                             }
                         }
                     }
