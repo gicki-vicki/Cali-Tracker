@@ -1,139 +1,743 @@
-<!DOCTYPE html>
-<html lang="de">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Fitness Tracker">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="theme-color" content="#667eea">
-    <meta name="msapplication-TileColor" content="#667eea">
-    <meta name="apple-touch-fullscreen" content="yes">
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 10px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.98);
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+}
+
+.header {
+    background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+    color: white;
+    padding: 25px 20px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Ccircle cx='30' cy='30' r='4'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") repeat;
+    animation: float 20s infinite linear;
+}
+
+@keyframes float {
+    0% { transform: translateX(0px) translateY(0px); }
+    100% { transform: translateX(-60px) translateY(-60px); }
+}
+
+.header h1 {
+    font-size: 2.2rem;
+    margin-bottom: 8px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    position: relative;
+    z-index: 1;
+}
+
+.header p {
+    font-size: 1rem;
+    opacity: 0.9;
+    position: relative;
+    z-index: 1;
+}
+
+.main-content {
+    padding: 25px 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+}
+
+.form-section, .chart-section, .history-section, .stats-section {
+    background: #f8f9fa;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.form-section h2, .chart-section h2, .history-section h2, .stats-section h2 {
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 1.4rem;
+    font-weight: 600;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    color: #555;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+input, select {
+    width: 100%;
+    padding: 14px 16px;
+    border: 2px solid #e1e8ed;
+    border-radius: 12px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    background: white;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+input:focus, select:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+    transform: translateY(-1px);
+}
+
+.btn {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    border: none;
+    padding: 14px 24px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s;
+}
+
+.btn:hover::before {
+    left: 100%;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+.chart-container {
+    position: relative;
+    height: 280px;
+    margin-top: 20px;
+    background: white;
+    border-radius: 12px;
+    padding: 15px;
+}
+
+.history-section {
+    grid-column: 1 / -1;
+    margin-top: 25px;
+}
+
+.filter-section {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    background: #e9ecef;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    color: #6c757d;
+}
+
+.filter-btn.active, .filter-btn:hover {
+    background: #667eea;
+    color: white;
+    transform: translateY(-1px);
+}
+
+.workout-entry {
+    background: white;
+    padding: 18px;
+    margin-bottom: 12px;
+    border-radius: 12px;
+    border-left: 4px solid #667eea;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.2s ease;
+}
+
+.workout-entry:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+}
+
+.workout-info {
+    flex: 1;
+}
+
+.workout-name {
+    font-weight: 600;
+    color: #333;
+    font-size: 1.1rem;
+    margin-bottom: 4px;
+}
+
+.workout-details {
+    color: #666;
+    margin-bottom: 4px;
+    font-size: 0.95rem;
+}
+
+.workout-date {
+    color: #999;
+    font-size: 0.85rem;
+}
+
+.delete-btn {
+    background: #ff4757;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.delete-btn:hover {
+    background: #ff3742;
+    transform: scale(1.05);
+}
+
+.type-toggle {
+    display: flex;
+    background: #e1e8ed;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 20px;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.type-toggle button {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    color: #6c757d;
+}
+
+.type-toggle button.active {
+    background: #667eea;
+    color: white;
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+}
+
+.stats-section {
+    grid-column: 1 / -1;
+    margin-top: 25px;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 20px;
+}
+
+.stat-card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-2px);
+}
+
+.stat-number {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #667eea;
+    margin-bottom: 5px;
+}
+
+.stat-label {
+    color: #666;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.no-data {
+    text-align: center;
+    color: #999;
+    font-style: italic;
+    padding: 40px;
+    background: white;
+    border-radius: 12px;
+    margin-top: 20px;
+}
+
+.toast {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #28a745;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+    z-index: 1000;
+    font-weight: 500;
+}
+
+.toast.show {
+    transform: translateX(0);
+}
+
+/* Mobile Optimizations */
+@media (max-width: 768px) {
+    body {
+        padding: 0;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background-attachment: fixed;
+    }
     
-    <!-- Prevent text size adjustment -->
-    <meta name="format-detection" content="telephone=no">
+    .container {
+        border-radius: 0;
+        min-height: 100vh;
+        margin: 0;
+        box-shadow: none;
+    }
     
-    <!-- Preload critical resources -->
-    <link rel="preload" href="style.css" as="style">
-    <link rel="preload" href="script.js" as="script">
+    .main-content {
+        grid-template-columns: 1fr;
+        gap: 15px;
+        padding: 15px;
+    }
     
-    <title>Fitness Tracker</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    .header {
+        padding: env(safe-area-inset-top, 20px) 20px 20px 20px;
+        background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+    }
     
-    <!-- PWA Icons -->
-    <link rel="apple-touch-icon" sizes="180x180" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgwIiBoZWlnaHQ9IjE4MCIgdmlld0JveD0iMCAwIDE4MCAxODAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxODAiIGhlaWdodD0iMTgwIiByeD0iNDAiIGZpbGw9InVybCgjZ3JhZGllbnQwX2xpbmVhcl8xXzEpIi8+CjxwYXRoIGQ9Ik00NSA2MEg2MFY5MEg0NVY2MFoiIGZpbGw9IndoaXRlIi8+CjxwYXRoIGQ9Ik03NSA0NUg5MFY3NUg3NVY0NVoiIGZpbGw9IndoaXRlIi8+CjxwYXRoIGQ9Ik0xMDUgNjBIMTIwVjkwSDEwNVY2MFoiIGZpbGw9IndoaXRlIi8+CjxwYXRoIGQ9Ik0xMzUgNDVIMTUwVjc1SDEzNVY0NVoiIGZpbGw9IndoaXRlIi8+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9ImdyYWRpZW50MF9saW5lYXJfMV8xIiB4MT0iMCIgeTE9IjAiIHgyPSIxODAiIHkyPSIxODAiIGdyYWRpZW50VW5pdHM9InVzZXJTcGFjZU9uVXNlIj4KPHN0b3Agc3RvcC1jb2xvcj0iIzY2N2VlYSIvPgo8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiM3NjRiYTIiLz4KPC9saW5lYXJHcmFkaWVudD4KPC9kZWZzPgo8L3N2Zz4K">
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiByeD0iOCIgZmlsbD0idXJsKCNncmFkaWVudDBfbGluZWFyXzFfMSkiLz4KPHBhdGggZD0iTTggMTBIMTJWMTZIOFYxMFoiIGZpbGw9IndoaXRlIi8+CjxwYXRoIGQ9Ik0xNCA4SDE4VjE0SDE0VjhaIiBmaWxsPSJ3aGl0ZSIvPgo8cGF0aCBkPSJNMjAgMTBIMjRWMTZIMjBWMTBaIiBmaWxsPSJ3aGl0ZSIvPgo8ZGVmcz4KPGxpbmVhckdyYWRpZW50IGlkPSJncmFkaWVudDBfbGluZWFyXzFfMSIgeDE9IjAiIHkxPSIwIiB4Mj0iMzIiIHkyPSIzMiIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiPgo8c3RvcCBzdG9wLWNvbG9yPSIjNjY3ZWVhIi8+CjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzc2NGJhMiIvPgo8L2xpbmVhckdyYWRpZW50Pgo8L2RlZnM+Cjwvc3ZnPgo=">
+    .header h1 {
+        font-size: 1.8rem;
+        margin-bottom: 5px;
+    }
     
-    <!-- Web App Manifest -->
-    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIkZpdG5lc3MgVHJhY2tlciIsCiAgInNob3J0X25hbWUiOiAiRml0bmVzcyIsCiAgImRlc2NyaXB0aW9uIjogIlZlcmZvbGdlIGRlaW5lIEZpdG5lc3MtRm9ydHNjaHJpdHRlIiwKICAic3RhcnRfdXJsIjogIi8iLAogICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLAogICJiYWNrZ3JvdW5kX2NvbG9yIjogIiM2NjdlZWEiLAogICJ0aGVtZV9jb2xvciI6ICIjNjY3ZWVhIiwKICAiaWNvbnMiOiBbCiAgICB7CiAgICAgICJzcmMiOiAiZGF0YTppbWFnZS9zdmcreG1sO2Jhc2U2NCxQSE4yWnlCM2FXUjBhRDBpTVRnd0lpQm9aV2xuYUhROUlqRTRNQ0lpSUhacFpYZENiM2c5SWpBZ01DQXhPREFnTVRnd0lpQm1hV3hzUFNKdWIyNWxJaUI0Yld4dWN6MGlhSFIwY0RvdkwzZDNkeTUzTXk1dmNtY3ZNakF3TUM5emRtY2lQZ289IiwKICAgICAgInNpemVzIjogIjE4MHgxODAiLAogICAgICAidHlwZSI6ICJpbWFnZS9zdmcreG1sIgogICAgfQogIF0sCiAgImNhdGVnb3JpZXMiOiBbImZpdG5lc3MiLCAiaGVhbHRoIl0sCiAgImxhbmciOiAiZGUiCn0=">
-</head>
-<body>
-    <div class="container">
-        <div class="header">
-            <h1>🏋️ Fitness Tracker</h1>
-            <p>Verfolge deine Fortschritte und erreiche deine Ziele</p>
-        </div>
+    .header p {
+        font-size: 0.9rem;
+    }
+    
+    .form-section, .chart-section, .history-section, .stats-section {
+        padding: 20px 15px;
+        margin: 0;
+        border-radius: 12px;
+    }
+    
+    .form-group {
+        margin-bottom: 15px;
+    }
+    
+    input, select {
+        padding: 16px 14px;
+        font-size: 16px;
+        border-radius: 10px;
+        -webkit-appearance: none;
+    }
+    
+    .btn {
+        padding: 16px 24px;
+        font-size: 16px;
+        border-radius: 10px;
+        font-weight: 600;
+    }
+    
+    .type-toggle {
+        margin-bottom: 15px;
+    }
+    
+    .type-toggle button {
+        padding: 14px 12px;
+        font-size: 15px;
+        font-weight: 600;
+    }
+    
+    .chart-container {
+        height: 220px;
+        padding: 10px;
+    }
+    
+    .stats-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+    }
+    
+    .stat-card {
+        padding: 15px 10px;
+    }
+    
+    .stat-number {
+        font-size: 1.8rem;
+        margin-bottom: 3px;
+    }
+    
+    .stat-label {
+        font-size: 0.8rem;
+    }
+    
+    .workout-entry {
+        padding: 15px;
+        margin-bottom: 10px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .workout-info {
+        width: 100%;
+    }
+    
+    .workout-name {
+        font-size: 1rem;
+    }
+    
+    .workout-details {
+        font-size: 0.9rem;
+    }
+    
+    .workout-date {
+        font-size: 0.8rem;
+    }
+    
+    .delete-btn {
+        align-self: flex-end;
+        padding: 6px 12px;
+        font-size: 11px;
+    }
+    
+    .filter-section {
+        justify-content: stretch;
+        gap: 5px;
+    }
+    
+    .filter-btn {
+        flex: 1;
+        padding: 10px 8px;
+        font-size: 13px;
+        border-radius: 15px;
+    }
+    
+    .toast {
+        top: env(safe-area-inset-top, 10px);
+        right: 10px;
+        left: 10px;
+        transform: translateY(-100%);
+        font-size: 14px;
+        padding: 12px 16px;
+    }
+    
+    .toast.show {
+        transform: translateY(0);
+    }
+}
 
-        <div class="main-content">
-            <div class="form-section">
-                <h2>Neue Übung hinzufügen</h2>
-                
-                <div class="type-toggle">
-                    <button type="button" id="repsBtn" class="active">Wiederholungen</button>
-                    <button type="button" id="timeBtn">Zeit</button>
-                </div>
+@media (max-width: 480px) {
+    .header {
+        padding: env(safe-area-inset-top, 15px) 15px 15px 15px;
+    }
+    
+    .header h1 {
+        font-size: 1.6rem;
+    }
+    
+    .main-content {
+        padding: 10px;
+        gap: 12px;
+    }
+    
+    .form-section, .chart-section, .history-section, .stats-section {
+        padding: 15px 12px;
+    }
+    
+    .stats-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+    
+    .stat-card {
+        padding: 12px 8px;
+    }
+    
+    .stat-number {
+        font-size: 1.6rem;
+    }
+    
+    .stat-label {
+        font-size: 0.75rem;
+    }
+    
+    .filter-section {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .filter-btn {
+        padding: 12px;
+        font-size: 14px;
+    }
+    
+    .workout-entry {
+        padding: 12px;
+    }
+    
+    .chart-container {
+        height: 200px;
+        padding: 8px;
+    }
+}
 
-                <form id="workoutForm">
-                    <div class="form-group">
-                        <label for="exerciseName">Übung:</label>
-                        <select id="exerciseName" required>
-                            <option value="">Übung auswählen...</option>
-                            <option value="Liegestütze">Liegestütze</option>
-                            <option value="Klimmzüge">Klimmzüge</option>
-                            <option value="Kniebeugen">Kniebeugen</option>
-                            <option value="Planks">Planks</option>
-                            <option value="Sit-ups">Sit-ups</option>
-                            <option value="Burpees">Burpees</option>
-                            <option value="Dips">Dips</option>
-                            <option value="Mountain Climbers">Mountain Climbers</option>
-                            <option value="Bankdrücken">Bankdrücken</option>
-                            <option value="Kreuzheben">Kreuzheben</option>
-                            <option value="Bizeps Curls">Bizeps Curls</option>
-                            <option value="Trizeps Dips">Trizeps Dips</option>
-                            <option value="custom">Eigene Übung...</option>
-                        </select>
-                    </div>
+@media (max-width: 375px) {
+    .header h1 {
+        font-size: 1.4rem;
+    }
+    
+    .header p {
+        font-size: 0.85rem;
+    }
+    
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .main-content {
+        padding: 8px;
+    }
+    
+    .form-section, .chart-section, .history-section, .stats-section {
+        padding: 12px 10px;
+    }
+}
 
-                    <div class="form-group" id="customExerciseGroup" style="display: none;">
-                        <label for="customExercise">Eigene Übung:</label>
-                        <input type="text" id="customExercise" placeholder="Name der Übung">
-                    </div>
+/* iOS specific optimizations */
+@supports (-webkit-touch-callout: none) {
+    body {
+        -webkit-overflow-scrolling: touch;
+        -webkit-text-size-adjust: 100%;
+        -webkit-font-smoothing: antialiased;
+    }
+    
+    .container {
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    input, select, button, textarea {
+        -webkit-appearance: none;
+        -webkit-border-radius: 12px;
+        border-radius: 12px;
+        -webkit-tap-highlight-color: transparent;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        user-select: none;
+    }
+    
+    input:focus, select:focus {
+        -webkit-tap-highlight-color: transparent;
+        outline: none;
+    }
+    
+    .btn, .filter-btn, .delete-btn, .type-toggle button {
+        -webkit-tap-highlight-color: transparent;
+        -webkit-touch-callout: none;
+        cursor: pointer;
+        touch-action: manipulation;
+    }
+    
+    /* Prevent zoom on input focus */
+    input[type="text"],
+    input[type="number"],
+    select {
+        font-size: 16px !important;
+        transform: translateZ(0);
+        -webkit-transform: translateZ(0);
+    }
+    
+    /* Safe area handling for iPhone X and newer */
+    .header {
+        padding-top: max(env(safe-area-inset-top), 20px);
+    }
+    
+    .main-content {
+        padding-bottom: max(env(safe-area-inset-bottom), 20px);
+    }
+    
+    /* Improve scrolling performance */
+    .container,
+    .main-content,
+    .history-section {
+        -webkit-overflow-scrolling: touch;
+        will-change: scroll-position;
+    }
+    
+    /* Better touch targets */
+    button, .btn, .filter-btn, .delete-btn {
+        min-height: 44px;
+        min-width: 44px;
+    }
+    
+    .type-toggle button {
+        min-height: 40px;
+    }
+}
 
-                    <div class="form-group" id="repsGroup">
-                        <label for="reps">Wiederholungen:</label>
-                        <input type="number" id="reps" min="1" placeholder="z.B. 20">
-                    </div>
+/* PWA and fullscreen optimizations */
+@media (display-mode: standalone) {
+    body {
+        -webkit-user-select: none;
+        user-select: none;
+    }
+    
+    .header {
+        padding-top: max(env(safe-area-inset-top), 30px);
+    }
+    
+    /* Hide browser UI */
+    .container {
+        height: 100vh;
+        height: -webkit-fill-available;
+    }
+}
 
-                    <div class="form-group" id="timeGroup" style="display: none;">
-                        <label for="duration">Zeit (Sekunden):</label>
-                        <input type="number" id="duration" min="1" placeholder="z.B. 60">
-                    </div>
+/* Landscape mode optimizations */
+@media (orientation: landscape) and (max-height: 500px) {
+    .header {
+        padding: env(safe-area-inset-top, 10px) 20px 10px 20px;
+    }
+    
+    .header h1 {
+        font-size: 1.4rem;
+        margin-bottom: 2px;
+    }
+    
+    .header p {
+        font-size: 0.8rem;
+    }
+    
+    .main-content {
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+        padding: 10px 15px;
+    }
+    
+    .chart-container {
+        height: 180px;
+    }
+    
+    .stats-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .workout-entry {
+        flex-direction: row;
+        align-items: center;
+        padding: 10px 15px;
+    }
+    
+    .workout-info {
+        width: auto;
+        flex: 1;
+    }
+}
 
-                    <button type="submit" class="btn">Übung hinzufügen</button>
-                </form>
-            </div>
+/* High DPI displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .chart-container {
+        transform: translateZ(0);
+        -webkit-transform: translateZ(0);
+    }
+    
+    .btn, .filter-btn, .delete-btn {
+        transform: translateZ(0);
+        -webkit-transform: translateZ(0);
+    }
+}
 
-            <div class="chart-section">
-                <h2>Fortschritt</h2>
-                <div class="form-group">
-                    <label for="chartExercise">Übung für Diagramm:</label>
-                    <select id="chartExercise">
-                        <option value="">Übung auswählen...</option>
-                    </select>
-                </div>
-                <div class="chart-container">
-                    <canvas id="progressChart"></canvas>
-                </div>
-            </div>
-        </div>
+/* Dark mode support for mobile */
+@media (prefers-color-scheme: dark) and (max-width: 768px) {
+    body {
+        background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+    }
+    
+    .form-section, .chart-section, .history-section, .stats-section {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+    }
+    
+    .workout-entry, .stat-card {
+        background: rgba(255, 255, 255, 0.98);
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
+    }
+}
 
-        <div class="history-section">
-            <h2>Trainingshistorie</h2>
-            <div class="filter-section">
-                <button id="filterAll" class="filter-btn active">Alle</button>
-                <button id="filterReps" class="filter-btn">Wiederholungen</button>
-                <button id="filterTime" class="filter-btn">Zeit</button>
-            </div>
-            <div id="workoutHistory"></div>
-        </div>
-
-        <!-- Stats Section -->
-        <div class="stats-section">
-            <h2>Statistiken</h2>
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-number" id="totalWorkouts">0</div>
-                    <div class="stat-label">Trainings</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number" id="totalExercises">0</div>
-                    <div class="stat-label">Übungen</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number" id="currentStreak">0</div>
-                    <div class="stat-label">Tage Streak</div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Success Toast -->
-    <div id="toast" class="toast">
-        <span id="toastMessage">Übung hinzugefügt!</span>
-    </div>
-
-    <script src="script.js"></script>
-</body>
-</html>
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .form-section, .chart-section, .history-section, .stats-section {
+        background: rgba(255, 255, 255, 0.95);
+    }
+    
+    .workout-entry, .stat-card {
+        background: rgba(255, 255, 255, 0.98);
+    }
+}
