@@ -30,13 +30,32 @@
     <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIkZpdG5lc3MgVHJhY2tlciIsCiAgInNob3J0X25hbWUiOiAiRml0bmVzcyIsCiAgImRlc2NyaXB0aW9uIjogIlZlcmZvbGdlIGRlaW5lIEZpdG5lc3MtRm9ydHNjaHJpdHRlIiwKICAic3RhcnRfdXJsIjogIi8iLAogICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLAogICJiYWNrZ3JvdW5kX2NvbG9yIjogIiM2NjdlZWEiLAogICJ0aGVtZV9jb2xvciI6ICIjNjY3ZWVhIiwKICAiaWNvbnMiOiBbCiAgICB7CiAgICAgICJzcmMiOiAiZGF0YTppbWFnZS9zdmcreG1sO2Jhc2U2NCxQSE4yWnlCM2FXUjBhRDBpTVRnd0lpQm9aV2xuYUhROUlqRTRNQ0lpSUhacFpYZENiM2c5SWpBZ01DQXhPREFnTVRnd0lpQm1hV3hzUFNKdWIyNWxJaUI0Yld4dWN6MGlhSFIwY0RvdkwzZDNkeTUzTXk1dmNtY3ZNakF3TUM5emRtY2lQZ289IiwKICAgICAgInNpemVzIjogIjE4MHgxODAiLAogICAgICAidHlwZSI6ICJpbWFnZS9zdmcreG1sIgogICAgfQogIF0sCiAgImNhdGVnb3JpZXMiOiBbImZpdG5lc3MiLCAiaGVhbHRoIl0sCiAgImxhbmciOiAiZGUiCn0=">
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>🏋️ Fitness Tracker</h1>
-            <p>Verfolge deine Fortschritte und erreiche deine Ziele</p>
+    <!-- User Login Overlay -->
+    <div id="userLoginOverlay" class="overlay">
+        <div class="overlay-content">
+            <h2>Fitness Tracker</h2>
+            <p>Wähle einen Benutzer</p>
+            
+            <div class="fixed-users">
+                <button id="userBaerli" class="fixed-user-btn">
+                    <span class="user-emoji">🐻</span>
+                    <span class="user-name">Bärli</span>
+                </button>
+                <button id="userSonnenschein" class="fixed-user-btn">
+                    <span class="user-emoji">☀️</span>
+                    <span class="user-name">Sonnenschein</span>
+                </button>
+            </div>
         </div>
+    </div>
 
+    <div class="container">
         <div class="main-content">
+            <div class="user-header">
+                <h2 id="welcomeMessage">Hallo!</h2>
+                <button id="logoutButton" class="logout-btn">Abmelden</button>
+            </div>
+
             <div class="form-section">
                 <h2>Neue Übung hinzufügen</h2>
                 
