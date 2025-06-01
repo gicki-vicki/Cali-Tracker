@@ -14,27 +14,629 @@
     <!-- Prevent text size adjustment -->
     <meta name="format-detection" content="telephone=no">
     
-    <!-- Preload critical resources -->
-    <link rel="preload" href="style.css" as="style">
-    <link rel="preload" href="script.js" as="script">
-    
     <title>Fitness Tracker</title>
-    <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     
     <!-- PWA Icons -->
     <link rel="apple-touch-icon" sizes="180x180" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgwIiBoZWlnaHQ9IjE4MCIgdmlld0JveD0iMCAwIDE4MCAxODAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxODAiIGhlaWdodD0iMTgwIiByeD0iNDAiIGZpbGw9InVybCgjZ3JhZGllbnQwX2xpbmVhcl8xXzEpIi8+CjxwYXRoIGQ9Ik00NSA2MEg2MFY5MEg0NVY2MFoiIGZpbGw9IndoaXRlIi8+CjxwYXRoIGQ9Ik03NSA0NUg5MFY3NUg3NVY0NVoiIGZpbGw9IndoaXRlIi8+CjxwYXRoIGQ9Ik0xMDUgNjBIMTIwVjkwSDEwNVY2MFoiIGZpbGw9IndoaXRlIi8+CjxwYXRoIGQ9Ik0xMzUgNDVIMTUwVjc1SDEzNVY0NVoiIGZpbGw9IndoaXRlIi8+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9ImdyYWRpZW50MF9saW5lYXJfMV8xIiB4MT0iMCIgeTE9IjAiIHgyPSIxODAiIHkyPSIxODAiIGdyYWRpZW50VW5pdHM9InVzZXJTcGFjZU9uVXNlIj4KPHN0b3Agc3RvcC1jb2xvcj0iIzY2N2VlYSIvPgo8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiM3NjRiYTIiLz4KPC9saW5lYXJHcmFkaWVudD4KPC9kZWZzPgo8L3N2Zz4K">
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiByeD0iOCIgZmlsbD0idXJsKCNncmFkaWVudDBfbGluZWFyXzFfMSkiLz4KPHBhdGggZD0iTTggMTBIMTJWMTZIOFYxMFoiIGZpbGw9IndoaXRlIi8+CjxwYXRoIGQ9Ik0xNCA4SDE4VjE0SDE0VjhaIiBmaWxsPSJ3aGl0ZSIvPgo8cGF0aCBkPSJNMjAgMTBIMjRWMTZIMjBWMTBaIiBmaWxsPSJ3aGl0ZSIvPgo8ZGVmcz4KPGxpbmVhckdyYWRpZW50IGlkPSJncmFkaWVudDBfbGluZWFyXzFfMSIgeDE9IjAiIHkxPSIwIiB4Mj0iMzIiIHkyPSIzMiIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiPgo8c3RvcCBzdG9wLWNvbG9yPSIjNjY3ZWVhIi8+CjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzc2NGJhMiIvPgo8L2xpbmVhckdyYWRpZW50Pgo8L2RlZnM+Cjwvc3ZnPgo=">
     
-    <!-- Web App Manifest -->
-    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIkZpdG5lc3MgVHJhY2tlciIsCiAgInNob3J0X25hbWUiOiAiRml0bmVzcyIsCiAgImRlc2NyaXB0aW9uIjogIlZlcmZvbGdlIGRlaW5lIEZpdG5lc3MtRm9ydHNjaHJpdHRlIiwKICAic3RhcnRfdXJsIjogIi8iLAogICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLAogICJiYWNrZ3JvdW5kX2NvbG9yIjogIiM2NjdlZWEiLAogICJ0aGVtZV9jb2xvciI6ICIjNjY3ZWVhIiwKICAiaWNvbnMiOiBbCiAgICB7CiAgICAgICJzcmMiOiAiZGF0YTppbWFnZS9zdmcreG1sO2Jhc2U2NCxQSE4yWnlCM2FXUjBhRDBpTVRnd0lpQm9aV2xuYUhROUlqRTRNQ0lpSUhacFpYZENiM2c5SWpBZ01DQXhPREFnTVRnd0lpQm1hV3hzUFNKdWIyNWxJaUI0Yld4dWN6MGlhSFIwY0RvdkwzZDNkeTUzTXk1dmNtY3ZNakF3TUM5emRtY2lQZ289IiwKICAgICAgInNpemVzIjogIjE4MHgxODAiLAogICAgICAidHlwZSI6ICJpbWFnZS9zdmcreG1sIgogICAgfQogIF0sCiAgImNhdGVnb3JpZXMiOiBbImZpdG5lc3MiLCAiaGVhbHRoIl0sCiAgImxhbmciOiAiZGUiCn0=">
+    <style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    
+    :root {
+        --primary: #5271ff;
+        --primary-dark: #4460ee;
+        --secondary: #764ba2;
+        --error: #ff4757;
+        --success: #28a745;
+        --warning: #ffa726;
+        --period-color: #e91e63;
+        --bg-light: #f8f9fa;
+        --text-dark: #333;
+        --text-muted: #777;
+        --border-radius: 12px;
+        --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+        --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.12);
+        --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.16);
+    }
+    
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', sans-serif;
+        background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+        min-height: 100vh;
+        padding: 0;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        color: var(--text-dark);
+        -webkit-user-select: none;
+        -webkit-touch-callout: none;
+        -webkit-tap-highlight-color: transparent;
+    }
+    
+    .container {
+        max-width: 100%;
+        margin: 0 auto;
+        background: white;
+        min-height: 100vh;
+        min-height: -webkit-fill-available;
+    }
+    
+    /* Device-specific optimizations */
+    @media screen and (device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) {
+        /* iPhone 14 Pro optimizations */
+        .container {
+            max-width: 393px;
+        }
+        
+        .user-header {
+            padding-top: max(20px, env(safe-area-inset-top, 50px));
+        }
+        
+        .stats-section {
+            margin-bottom: max(25px, env(safe-area-inset-bottom, 34px));
+        }
+    }
+    
+    @media screen and (device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) {
+        /* iPhone 12 optimizations */
+        .container {
+            max-width: 390px;
+        }
+        
+        .user-header {
+            padding-top: max(18px, env(safe-area-inset-top, 44px));
+        }
+        
+        .stats-section {
+            margin-bottom: max(22px, env(safe-area-inset-bottom, 34px));
+        }
+    }
+    
+    /* Login Overlay */
+    .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        padding: 20px;
+    }
+    
+    .overlay-content {
+        background: white;
+        padding: 30px;
+        border-radius: var(--border-radius);
+        width: 100%;
+        max-width: 350px;
+        text-align: center;
+        box-shadow: var(--shadow-lg);
+    }
+    
+    .overlay-content h2 {
+        margin-bottom: 10px;
+        font-size: 1.8rem;
+        color: var(--primary);
+    }
+    
+    .overlay-content p {
+        margin-bottom: 25px;
+        color: var(--text-muted);
+        font-size: 1rem;
+    }
+    
+    .fixed-users {
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+        margin-top: 25px;
+    }
+    
+    .fixed-user-btn {
+        background: white;
+        border: 2px solid var(--primary);
+        border-radius: 18px;
+        padding: 18px 20px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        transition: all 0.3s ease;
+        min-height: 70px;
+        box-shadow: var(--shadow-sm);
+    }
+    
+    .fixed-user-btn:hover,
+    .fixed-user-btn:active {
+        background: var(--primary);
+        color: white;
+        transform: translateY(-3px);
+        box-shadow: var(--shadow-md);
+    }
+    
+    .user-emoji {
+        font-size: 2.5rem;
+    }
+    
+    .user-name {
+        font-size: 1.3rem;
+        font-weight: 600;
+    }
+    
+    /* User header */
+    .user-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 20px 15px;
+        border-bottom: 1px solid #eee;
+        background-color: white;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+    }
+    
+    .user-header h2 {
+        font-size: 1.4rem;
+        font-weight: 600;
+        color: var(--primary);
+    }
+    
+    .header-controls {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+    
+    .cycle-toggle {
+        background: var(--period-color);
+        color: white;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 20px;
+        cursor: pointer;
+        font-size: 0.85rem;
+        font-weight: 500;
+        transition: all 0.2s ease;
+        min-height: 36px;
+        display: none;
+    }
+    
+    .cycle-toggle.active {
+        background: var(--warning);
+        animation: pulse 2s infinite;
+    }
+    
+    .cycle-toggle.show {
+        display: block;
+    }
+    
+    @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+        100% { transform: scale(1); }
+    }
+    
+    .logout-btn {
+        background: transparent;
+        color: var(--error);
+        border: 1px solid var(--error);
+        padding: 8px 15px;
+        border-radius: 20px;
+        cursor: pointer;
+        font-size: 0.85rem;
+        font-weight: 500;
+        transition: all 0.2s ease;
+        min-height: 36px;
+    }
+    
+    .logout-btn:hover,
+    .logout-btn:active {
+        background: var(--error);
+        color: white;
+    }
+    
+    /* Main content */
+    .main-content {
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+    }
+    
+    .form-section, .chart-section, .history-section, .stats-section {
+        background: white;
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow-sm);
+        overflow: hidden;
+    }
+    
+    .form-section h2, .chart-section h2, .history-section h2, .stats-section h2 {
+        padding: 18px 20px;
+        border-bottom: 1px solid #eee;
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: var(--primary);
+    }
+    
+    .cycle-indicator {
+        background: var(--period-color);
+        color: white;
+        padding: 12px 20px;
+        text-align: center;
+        font-weight: 500;
+        font-size: 0.9rem;
+        display: none;
+    }
+    
+    .cycle-indicator.show {
+        display: block;
+    }
+    
+    .form-group {
+        margin-bottom: 18px;
+        padding: 0 20px;
+    }
+    
+    label {
+        display: block;
+        margin-bottom: 8px;
+        color: var(--text-muted);
+        font-size: 0.95rem;
+        font-weight: 500;
+    }
+    
+    input, select {
+        width: 100%;
+        padding: 14px 16px;
+        border: 2px solid #e1e8ed;
+        border-radius: 10px;
+        font-size: 16px;
+        background: white;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        transition: all 0.2s ease;
+    }
+    
+    input:focus, select:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 4px rgba(82, 113, 255, 0.1);
+    }
+    
+    .btn {
+        background: var(--primary);
+        color: white;
+        border: none;
+        padding: 16px 20px;
+        border-radius: 10px;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 600;
+        width: 100%;
+        margin: 20px 0;
+        transition: all 0.2s ease;
+        min-height: 52px;
+    }
+    
+    .btn:hover,
+    .btn:active {
+        background: var(--primary-dark);
+        transform: translateY(-1px);
+    }
+    
+    /* Type toggle */
+    .type-toggle {
+        display: flex;
+        margin: 20px;
+        background: #f0f2f5;
+        border-radius: 25px;
+        overflow: hidden;
+        padding: 4px;
+    }
+    
+    .type-toggle button {
+        flex: 1;
+        padding: 12px 16px;
+        border: none;
+        background: transparent;
+        cursor: pointer;
+        font-weight: 500;
+        font-size: 0.95rem;
+        color: var(--text-muted);
+        border-radius: 20px;
+        transition: all 0.2s ease;
+        min-height: 44px;
+    }
+    
+    .type-toggle button.active {
+        background: var(--primary);
+        color: white;
+        box-shadow: var(--shadow-sm);
+    }
+    
+    /* Chart container */
+    .chart-container {
+        position: relative;
+        height: 250px;
+        padding: 20px;
+    }
+    
+    /* History section */
+    .filter-section {
+        display: flex;
+        gap: 10px;
+        padding: 20px 20px 0;
+        flex-wrap: wrap;
+    }
+    
+    .filter-btn {
+        background: #f0f2f5;
+        border: none;
+        padding: 10px 18px;
+        border-radius: 25px;
+        cursor: pointer;
+        font-size: 0.85rem;
+        font-weight: 500;
+        color: var(--text-muted);
+        transition: all 0.2s ease;
+        min-height: 40px;
+    }
+    
+    .filter-btn.active, .filter-btn:hover {
+        background: var(--primary);
+        color: white;
+        transform: translateY(-1px);
+    }
+    
+    #workoutHistory {
+        padding: 20px;
+    }
+    
+    .workout-entry {
+        background: #f9f9f9;
+        padding: 18px;
+        margin-bottom: 12px;
+        border-radius: 12px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: all 0.2s ease;
+        border-left: 4px solid transparent;
+    }
+    
+    .workout-entry.period-entry {
+        border-left-color: var(--period-color);
+        background: #fce4ec;
+    }
+    
+    .workout-info {
+        flex: 1;
+    }
+    
+    .workout-name {
+        font-weight: 600;
+        font-size: 1.05rem;
+        margin-bottom: 6px;
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+    
+    .period-badge {
+        display: inline-block;
+        background: var(--period-color);
+        color: white;
+        padding: 3px 10px;
+        border-radius: 15px;
+        font-size: 0.7rem;
+        font-weight: 500;
+    }
+    
+    .difficulty-badge {
+        display: inline-block;
+        background: #e9ecef;
+        color: var(--text-muted);
+        padding: 3px 10px;
+        border-radius: 15px;
+        font-size: 0.7rem;
+        font-weight: 500;
+    }
+    
+    .workout-details {
+        color: var(--text-muted);
+        margin-bottom: 3px;
+        font-size: 0.95rem;
+    }
+    
+    .workout-date {
+        color: #aaa;
+        font-size: 0.85rem;
+    }
+    
+    .delete-btn {
+        background: var(--error);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        padding: 8px 12px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        font-weight: 500;
+        transition: all 0.2s ease;
+        min-height: 36px;
+        min-width: 36px;
+    }
+    
+    .delete-btn:hover,
+    .delete-btn:active {
+        background: #e74c3c;
+        transform: scale(1.05);
+    }
+    
+    /* Stats section */
+    .stats-section {
+        margin-bottom: 25px;
+    }
+    
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        padding: 20px;
+        gap: 15px;
+    }
+    
+    .stat-card {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 20px 15px;
+        border-radius: 12px;
+        text-align: center;
+        box-shadow: var(--shadow-sm);
+        transition: transform 0.2s ease;
+    }
+    
+    .stat-card:hover {
+        transform: translateY(-2px);
+    }
+    
+    .stat-number {
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 4px;
+    }
+    
+    .stat-label {
+        font-size: 0.85rem;
+        font-weight: 500;
+        opacity: 0.9;
+    }
+    
+    /* No data message */
+    .no-data {
+        text-align: center;
+        color: var(--text-muted);
+        font-style: italic;
+        padding: 30px 20px;
+        font-size: 1rem;
+    }
+    
+    /* Toast notification */
+    .toast {
+        position: fixed;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%) translateY(100px);
+        background: var(--success);
+        color: white;
+        padding: 15px 25px;
+        border-radius: 25px;
+        box-shadow: var(--shadow-md);
+        transition: transform 0.3s ease;
+        z-index: 1000;
+        font-weight: 500;
+        font-size: 0.95rem;
+        text-align: center;
+        max-width: 90%;
+        min-height: 50px;
+        display: flex;
+        align-items: center;
+    }
+    
+    .toast.error {
+        background: var(--error);
+    }
+    
+    .toast.warning {
+        background: var(--warning);
+    }
+    
+    .toast.show {
+        transform: translateX(-50%) translateY(0);
+    }
+    
+    /* Help text */
+    .help-text {
+        font-size: 0.8rem;
+        color: #aaa;
+        margin-top: 6px;
+        line-height: 1.4;
+    }
+    
+    /* PWA optimizations */
+    @media (display-mode: standalone) {
+        .container {
+            min-height: 100vh;
+            height: -webkit-fill-available;
+        }
+        
+        body {
+            overscroll-behavior: none;
+        }
+    }
+    
+    /* Touch optimizations */
+    button, .btn, .filter-btn, .delete-btn, .fixed-user-btn {
+        -webkit-tap-highlight-color: transparent;
+        touch-action: manipulation;
+    }
+    
+    /* Accessibility */
+    @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+        }
+    }
+    
+    /* Dark mode support */
+    @media (prefers-color-scheme: dark) {
+        :root {
+            --bg-light: #1a1a1a;
+            --text-dark: #f0f0f0;
+            --text-muted: #a0a0a0;
+        }
+        
+        .container {
+            background: #1a1a1a;
+            color: var(--text-dark);
+        }
+        
+        .form-section, .chart-section, .history-section, .stats-section {
+            background: #2a2a2a;
+        }
+        
+        .workout-entry {
+            background: #333;
+        }
+        
+        input, select {
+            background: #333;
+            color: var(--text-dark);
+            border-color: #444;
+        }
+    }
+    </style>
 </head>
 <body>
     <!-- User Login Overlay -->
     <div id="userLoginOverlay" class="overlay">
         <div class="overlay-content">
-            <h2>Fitness Tracker</h2>
-            <p>Wähle einen Benutzer</p>
+            <h2>💪 Fitness Tracker</h2>
+            <p>Wähle deinen Benutzer</p>
             
             <div class="fixed-users">
                 <button id="userBaerli" class="fixed-user-btn">
@@ -53,11 +655,17 @@
         <div class="main-content">
             <div class="user-header">
                 <h2 id="welcomeMessage">Hallo!</h2>
-                <button id="logoutButton" class="logout-btn">Abmelden</button>
+                <div class="header-controls">
+                    <button id="cycleToggle" class="cycle-toggle">🔴 Tagi</button>
+                    <button id="logoutButton" class="logout-btn">Abmelden</button>
+                </div>
             </div>
 
             <div class="form-section">
-                <h2>Neue Übung hinzufügen</h2>
+                <h2>💪 Neue Übung hinzufügen</h2>
+                <div class="cycle-indicator" id="cycleIndicator">
+                    🔴 Tagi-Modus aktiv - Übungen werden entsprechend markiert
+                </div>
                 
                 <div class="type-toggle">
                     <button type="button" id="repsBtn" class="active">Wiederholungen</button>
@@ -69,19 +677,23 @@
                         <label for="exerciseName">Übung:</label>
                         <select id="exerciseName" required>
                             <option value="">Übung auswählen...</option>
-                            <option value="Liegestütze">Liegestütze</option>
-                            <option value="Klimmzüge">Klimmzüge</option>
-                            <option value="Kniebeugen">Kniebeugen</option>
-                            <option value="Planks">Planks</option>
-                            <option value="Sit-ups">Sit-ups</option>
-                            <option value="Burpees">Burpees</option>
-                            <option value="Dips">Dips</option>
-                            <option value="Mountain Climbers">Mountain Climbers</option>
-                            <option value="Bankdrücken">Bankdrücken</option>
-                            <option value="Kreuzheben">Kreuzheben</option>
-                            <option value="Bizeps Curls">Bizeps Curls</option>
-                            <option value="Trizeps Dips">Trizeps Dips</option>
-                            <option value="custom">Eigene Übung...</option>
+                            <option value="Liegestütze">💪 Liegestütze</option>
+                            <option value="Klimmzüge">🎯 Klimmzüge</option>
+                            <option value="Kniebeugen">🦵 Kniebeugen</option>
+                            <option value="Planks">🏋️ Planks</option>
+                            <option value="Sit-ups">💥 Sit-ups</option>
+                            <option value="Burpees">🔥 Burpees</option>
+                            <option value="Dips">💪 Dips</option>
+                            <option value="Mountain Climbers">⛰️ Mountain Climbers</option>
+                            <option value="Bankdrücken">🏋️‍♀️ Bankdrücken</option>
+                            <option value="Kreuzheben">💪 Kreuzheben</option>
+                            <option value="Bizeps Curls">💪 Bizeps Curls</option>
+                            <option value="Trizeps Dips">💪 Trizeps Dips</option>
+                            <option value="Yoga">🧘‍♀️ Yoga</option>
+                            <option value="Dehnen">🤸‍♀️ Dehnen</option>
+                            <option value="Spazieren">🚶‍♀️ Spazieren</option>
+                            <option value="Meditation">🧘‍♀️ Meditation</option>
+                            <option value="custom">✨ Eigene Übung...</option>
                         </select>
                     </div>
 
@@ -106,12 +718,12 @@
                         <input type="number" id="duration" min="1" placeholder="z.B. 60">
                     </div>
 
-                    <button type="submit" class="btn">Übung hinzufügen</button>
+                    <button type="submit" class="btn">✅ Übung hinzufügen</button>
                 </form>
             </div>
 
             <div class="chart-section">
-                <h2>Fortschritt</h2>
+                <h2>📊 Fortschritt</h2>
                 <div class="form-group">
                     <label for="chartExercise">Übung für Diagramm:</label>
                     <select id="chartExercise">
@@ -125,18 +737,19 @@
         </div>
 
         <div class="history-section">
-            <h2>Trainingshistorie</h2>
+            <h2>📝 Trainingshistorie</h2>
             <div class="filter-section">
                 <button id="filterAll" class="filter-btn active">Alle</button>
                 <button id="filterReps" class="filter-btn">Wiederholungen</button>
                 <button id="filterTime" class="filter-btn">Zeit</button>
+                <button id="filterPeriod" class="filter-btn">🔴 Tagi</button>
             </div>
             <div id="workoutHistory"></div>
         </div>
 
         <!-- Stats Section -->
         <div class="stats-section">
-            <h2>Statistiken</h2>
+            <h2>📈 Statistiken</h2>
             <div class="stats-grid">
                 <div class="stat-card">
                     <div class="stat-number" id="totalWorkouts">0</div>
@@ -159,6 +772,662 @@
         <span id="toastMessage">Übung hinzugefügt!</span>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+    class FitnessTracker {
+        constructor() {
+            this.storage = this.initStorage();
+            this.currentUser = null;
+            this.workouts = [];
+            this.currentType = 'reps';
+            this.chart = null;
+            this.currentFilter = 'all';
+            this.periodMode = false;
+            
+            this.initUserLogin();
+            
+            const savedUser = this.storage.getItem('fitness_current_user');
+            if (savedUser) {
+                this.setCurrentUser(savedUser);
+            }
+        }
+
+        initStorage() {
+            const storage = {};
+            return {
+                getItem: (key) => storage[key] || null,
+                setItem: (key, value) => storage[key] = value,
+                removeItem: (key) => delete storage[key]
+            };
+        }
+
+        initUserLogin() {
+            const overlay = document.getElementById('userLoginOverlay');
+            const baerliBtn = document.getElementById('userBaerli');
+            const sonnenscheinBtn = document.getElementById('userSonnenschein');
+            const logoutButton = document.getElementById('logoutButton');
+            const cycleToggle = document.getElementById('cycleToggle');
+            
+            if (!this.currentUser) {
+                overlay.style.display = 'flex';
+            } else {
+                overlay.style.display = 'none';
+            }
+            
+            baerliBtn.addEventListener('click', () => {
+                this.setCurrentUser('Bärli', '🐻');
+                overlay.style.display = 'none';
+            });
+            
+            sonnenscheinBtn.addEventListener('click', () => {
+                this.setCurrentUser('Sonnenschein', '☀️');
+                overlay.style.display = 'none';
+            });
+            
+            logoutButton.addEventListener('click', () => {
+                this.logoutUser();
+            });
+
+            cycleToggle.addEventListener('click', () => {
+                this.togglePeriodMode();
+            });
+        }
+        
+        setCurrentUser(username, emoji) {
+            this.currentUser = username;
+            this.storage.setItem('fitness_current_user', username);
+            
+            document.getElementById('welcomeMessage').innerHTML = `${emoji} ${username}`;
+            
+            // Show cycle toggle only for Sonnenschein
+            const cycleToggle = document.getElementById('cycleToggle');
+            const filterPeriod = document.getElementById('filterPeriod');
+            if (username === 'Sonnenschein') {
+                cycleToggle.classList.add('show');
+                filterPeriod.style.display = 'block';
+            } else {
+                cycleToggle.classList.remove('show');
+                filterPeriod.style.display = 'none';
+                this.periodMode = false;
+                this.updatePeriodUI();
+            }
+            
+            this.loadWorkouts();
+            this.initEventListeners();
+            this.updateDisplay();
+            this.updateChartExerciseOptions();
+            this.updateStats();
+            
+            this.showToast(`Willkommen, ${username}! ${emoji}`, 'success');
+        }
+        
+        togglePeriodMode() {
+            this.periodMode = !this.periodMode;
+            this.updatePeriodUI();
+            
+            if (this.periodMode) {
+                this.showToast('🔴 Tagi-Modus aktiviert', 'warning');
+            } else {
+                this.showToast('Tagi-Modus deaktiviert', 'success');
+            }
+        }
+
+        updatePeriodUI() {
+            const cycleToggle = document.getElementById('cycleToggle');
+            const cycleIndicator = document.getElementById('cycleIndicator');
+            
+            if (this.periodMode) {
+                cycleToggle.classList.add('active');
+                cycleIndicator.classList.add('show');
+            } else {
+                cycleToggle.classList.remove('active');
+                cycleIndicator.classList.remove('show');
+            }
+        }
+        
+        logoutUser() {
+            this.storage.removeItem('fitness_current_user');
+            this.currentUser = null;
+            this.periodMode = false;
+            this.updatePeriodUI();
+            document.getElementById('userLoginOverlay').style.display = 'flex';
+        }
+
+        loadWorkouts() {
+            try {
+                const data = this.storage.getItem(`fitness_workouts_${this.currentUser}`);
+                this.workouts = data ? JSON.parse(data) : [];
+            } catch (e) {
+                console.error('Error loading workouts:', e);
+                this.workouts = [];
+            }
+        }
+
+        saveWorkouts() {
+            try {
+                this.storage.setItem(`fitness_workouts_${this.currentUser}`, JSON.stringify(this.workouts));
+            } catch (e) {
+                console.error('Error saving workouts:', e);
+                this.showToast('Fehler beim Speichern!', 'error');
+            }
+        }
+
+        initEventListeners() {
+            const form = document.getElementById('workoutForm');
+            if (form) {
+                form.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.addWorkout();
+                });
+            }
+
+            const repsBtn = document.getElementById('repsBtn');
+            const timeBtn = document.getElementById('timeBtn');
+            
+            if (repsBtn) repsBtn.addEventListener('click', () => this.setType('reps'));
+            if (timeBtn) timeBtn.addEventListener('click', () => this.setType('time'));
+
+            const exerciseSelect = document.getElementById('exerciseName');
+            if (exerciseSelect) {
+                exerciseSelect.addEventListener('change', (e) => {
+                    const customGroup = document.getElementById('customExerciseGroup');
+                    const customInput = document.getElementById('customExercise');
+                    
+                    if (e.target.value === 'custom') {
+                        customGroup.style.display = 'block';
+                        customInput.required = true;
+                        customInput.focus();
+                    } else {
+                        customGroup.style.display = 'none';
+                        customInput.required = false;
+                    }
+                });
+            }
+
+            const chartSelect = document.getElementById('chartExercise');
+            if (chartSelect) {
+                chartSelect.addEventListener('change', (e) => {
+                    this.updateChart(e.target.value);
+                });
+            }
+
+            const filterAll = document.getElementById('filterAll');
+            const filterReps = document.getElementById('filterReps');
+            const filterTime = document.getElementById('filterTime');
+            const filterPeriod = document.getElementById('filterPeriod');
+
+            if (filterAll) filterAll.addEventListener('click', () => this.setFilter('all'));
+            if (filterReps) filterReps.addEventListener('click', () => this.setFilter('reps'));
+            if (filterTime) filterTime.addEventListener('click', () => this.setFilter('time'));
+            if (filterPeriod) filterPeriod.addEventListener('click', () => this.setFilter('period'));
+        }
+
+        setType(type) {
+            this.currentType = type;
+            
+            const repsBtn = document.getElementById('repsBtn');
+            const timeBtn = document.getElementById('timeBtn');
+            
+            if (repsBtn) repsBtn.classList.toggle('active', type === 'reps');
+            if (timeBtn) timeBtn.classList.toggle('active', type === 'time');
+            
+            const repsGroup = document.getElementById('repsGroup');
+            const timeGroup = document.getElementById('timeGroup');
+            const repsInput = document.getElementById('reps');
+            const durationInput = document.getElementById('duration');
+            
+            if (repsGroup) repsGroup.style.display = type === 'reps' ? 'block' : 'none';
+            if (timeGroup) timeGroup.style.display = type === 'time' ? 'block' : 'none';
+            
+            if (repsInput) repsInput.required = type === 'reps';
+            if (durationInput) durationInput.required = type === 'time';
+        }
+
+        setFilter(filter) {
+            this.currentFilter = filter;
+            
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            let activeBtn;
+            switch(filter) {
+                case 'all':
+                    activeBtn = document.getElementById('filterAll');
+                    break;
+                case 'reps':
+                    activeBtn = document.getElementById('filterReps');
+                    break;
+                case 'time':
+                    activeBtn = document.getElementById('filterTime');
+                    break;
+                case 'period':
+                    activeBtn = document.getElementById('filterPeriod');
+                    break;
+            }
+            
+            if (activeBtn) activeBtn.classList.add('active');
+            
+            this.updateDisplay();
+        }
+
+        addWorkout() {
+            const exerciseSelect = document.getElementById('exerciseName');
+            const customExercise = document.getElementById('customExercise');
+            const difficultyInput = document.getElementById('difficulty');
+            const repsInput = document.getElementById('reps');
+            const durationInput = document.getElementById('duration');
+
+            if (!exerciseSelect) return;
+
+            let exerciseName;
+            if (exerciseSelect.value === 'custom') {
+                exerciseName = customExercise?.value?.trim();
+                if (!exerciseName) {
+                    this.showToast('Bitte gib einen Übungsnamen ein!', 'error');
+                    return;
+                }
+            } else {
+                exerciseName = exerciseSelect.value.replace(/^[^\s]+ /, ''); // Remove emoji prefix
+            }
+
+            if (!exerciseName) {
+                this.showToast('Bitte wähle eine Übung aus!', 'error');
+                return;
+            }
+
+            const value = this.currentType === 'reps' 
+                ? parseInt(repsInput?.value) 
+                : parseInt(durationInput?.value);
+
+            if (!value || value <= 0) {
+                this.showToast('Bitte gib einen gültigen Wert ein!', 'error');
+                return;
+            }
+
+            const difficulty = difficultyInput?.value?.trim() || '';
+
+            const workout = {
+                id: Date.now() + Math.random(),
+                exercise: exerciseName,
+                difficulty: difficulty,
+                type: this.currentType,
+                value: value,
+                date: new Date().toISOString(),
+                isPeriod: this.periodMode && this.currentUser === 'Sonnenschein'
+            };
+
+            this.workouts.push(workout);
+            this.saveWorkouts();
+            this.updateDisplay();
+            this.updateChartExerciseOptions();
+            this.updateStats();
+            
+            const form = document.getElementById('workoutForm');
+            if (form) form.reset();
+            
+            const customGroup = document.getElementById('customExerciseGroup');
+            const customInput = document.getElementById('customExercise');
+            
+            if (customGroup) customGroup.style.display = 'none';
+            if (customInput) customInput.required = false;
+
+            const successMsg = workout.isPeriod ? 
+                'Übung erfolgreich hinzugefügt! 🔴💪' : 
+                'Übung erfolgreich hinzugefügt! 💪';
+            this.showToast(successMsg, 'success');
+            
+            if (exerciseSelect) exerciseSelect.focus();
+        }
+
+        deleteWorkout(id) {
+            if (confirm('Möchtest du diese Übung wirklich löschen?')) {
+                this.workouts = this.workouts.filter(workout => workout.id !== id);
+                this.saveWorkouts();
+                this.updateDisplay();
+                this.updateChartExerciseOptions();
+                this.updateStats();
+                
+                const chartExercise = document.getElementById('chartExercise');
+                if (chartExercise?.value) {
+                    this.updateChart(chartExercise.value);
+                }
+
+                this.showToast('Übung gelöscht!', 'success');
+            }
+        }
+
+        updateDisplay() {
+            const historyDiv = document.getElementById('workoutHistory');
+            if (!historyDiv) return;
+            
+            let filteredWorkouts = [...this.workouts];
+            
+            if (this.currentFilter !== 'all') {
+                if (this.currentFilter === 'period') {
+                    filteredWorkouts = filteredWorkouts.filter(w => w.isPeriod);
+                } else {
+                    filteredWorkouts = filteredWorkouts.filter(w => w.type === this.currentFilter);
+                }
+            }
+            
+            if (filteredWorkouts.length === 0) {
+                let message = 'Noch keine Übungen hinzugefügt';
+                if (this.currentFilter === 'reps') message = 'Keine Wiederholungs-Übungen gefunden';
+                else if (this.currentFilter === 'time') message = 'Keine Zeit-Übungen gefunden';
+                else if (this.currentFilter === 'period') message = 'Keine Tagi-Übungen gefunden';
+                
+                historyDiv.innerHTML = `<div class="no-data">${message}</div>`;
+                return;
+            }
+
+            const sortedWorkouts = filteredWorkouts.sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            historyDiv.innerHTML = sortedWorkouts.map(workout => {
+                const difficultyBadge = workout.difficulty 
+                    ? `<span class="difficulty-badge">${this.escapeHtml(workout.difficulty)}</span>` 
+                    : '';
+                
+                const periodBadge = workout.isPeriod 
+                    ? `<span class="period-badge">Tagi</span>` 
+                    : '';
+                
+                const entryClass = workout.isPeriod ? 'workout-entry period-entry' : 'workout-entry';
+                
+                return `
+                    <div class="${entryClass}">
+                        <div class="workout-info">
+                            <div class="workout-name">
+                                <span>${this.escapeHtml(workout.exercise)}</span>
+                                ${periodBadge}
+                                ${difficultyBadge}
+                            </div>
+                            <div class="workout-details">
+                                ${workout.value} ${workout.type === 'reps' ? 'Wiederholungen' : 'Sekunden'}
+                            </div>
+                            <div class="workout-date">${this.formatDate(workout.date)}</div>
+                        </div>
+                        <button class="delete-btn" onclick="tracker.deleteWorkout('${workout.id}')">
+                            🗑️
+                        </button>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        updateChartExerciseOptions() {
+            const exercises = [...new Set(this.workouts.map(w => w.exercise))];
+            const select = document.getElementById('chartExercise');
+            if (!select) return;
+            
+            const currentValue = select.value;
+            
+            select.innerHTML = '<option value="">Übung auswählen...</option>' +
+                exercises.map(exercise => 
+                    `<option value="${this.escapeHtml(exercise)}">${this.escapeHtml(exercise)}</option>`
+                ).join('');
+            
+            if (exercises.includes(currentValue)) {
+                select.value = currentValue;
+            }
+        }
+
+        updateChart(exerciseName) {
+            const canvas = document.getElementById('progressChart');
+            if (!canvas) return;
+
+            if (!exerciseName) {
+                if (this.chart) {
+                    this.chart.destroy();
+                    this.chart = null;
+                }
+                return;
+            }
+
+            const exerciseWorkouts = this.workouts
+                .filter(w => w.exercise === exerciseName)
+                .sort((a, b) => new Date(a.date) - new Date(b.date));
+
+            if (exerciseWorkouts.length === 0) {
+                if (this.chart) {
+                    this.chart.destroy();
+                    this.chart = null;
+                }
+                return;
+            }
+
+            const labels = exerciseWorkouts.map(w => this.formatDate(w.date, true));
+            const data = exerciseWorkouts.map(w => w.value);
+            const isPeriodData = exerciseWorkouts.map(w => w.isPeriod || false);
+            const type = exerciseWorkouts[0]?.type || 'reps';
+
+            const ctx = canvas.getContext('2d');
+            
+            if (this.chart) {
+                this.chart.destroy();
+            }
+
+            // Different colors for period workouts
+            const pointColors = isPeriodData.map(isPeriod => isPeriod ? '#e91e63' : '#667eea');
+            const borderColors = isPeriodData.map(isPeriod => isPeriod ? '#e91e63' : '#667eea');
+
+            this.chart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: `${exerciseName} (${type === 'reps' ? 'Wiederholungen' : 'Sekunden'})`,
+                        data: data,
+                        borderColor: '#667eea',
+                        backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4,
+                        pointBackgroundColor: pointColors,
+                        pointBorderColor: borderColors,
+                        pointBorderWidth: 2,
+                        pointRadius: 8,
+                        pointHoverRadius: 10,
+                        pointHoverBackgroundColor: '#ff6b6b'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                            titleColor: '#fff',
+                            bodyColor: '#fff',
+                            borderColor: '#667eea',
+                            borderWidth: 1,
+                            cornerRadius: 8,
+                            displayColors: false,
+                            callbacks: {
+                                title: (context) => context[0].label,
+                                label: (context) => {
+                                    const value = context.parsed.y;
+                                    const unit = type === 'reps' ? 'Wiederholungen' : 'Sekunden';
+                                    return `${value} ${unit}`;
+                                },
+                                afterLabel: (context) => {
+                                    const index = context.dataIndex;
+                                    const lines = [];
+                                    
+                                    if (isPeriodData[index]) {
+                                        lines.push('🔴 Während Tagi');
+                                    }
+                                    
+                                    if (index > 0) {
+                                        const current = context.parsed.y;
+                                        const previous = data[index - 1];
+                                        const change = current - previous;
+                                        const changeText = change > 0 ? `+${change}` : `${change}`;
+                                        if (change !== 0) {
+                                            lines.push(`Veränderung: ${changeText}`);
+                                        }
+                                    }
+                                    
+                                    return lines;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.1)'
+                            },
+                            ticks: {
+                                color: '#666'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.1)'
+                            },
+                            ticks: {
+                                color: '#666',
+                                maxTicksLimit: 8
+                            }
+                        }
+                    },
+                    interaction: {
+                        intersect: false,
+                        mode: 'index'
+                    }
+                }
+            });
+        }
+
+        updateStats() {
+            const totalWorkoutsEl = document.getElementById('totalWorkouts');
+            const totalExercisesEl = document.getElementById('totalExercises');
+            const currentStreakEl = document.getElementById('currentStreak');
+
+            if (totalWorkoutsEl) {
+                totalWorkoutsEl.textContent = this.workouts.length;
+            }
+
+            if (totalExercisesEl) {
+                const uniqueExercises = new Set(this.workouts.map(w => w.exercise));
+                totalExercisesEl.textContent = uniqueExercises.size;
+            }
+
+            if (currentStreakEl) {
+                currentStreakEl.textContent = this.calculateCurrentStreak();
+            }
+        }
+
+        calculateCurrentStreak() {
+            if (this.workouts.length === 0) return 0;
+
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+
+            const workoutDays = [...new Set(
+                this.workouts.map(w => {
+                    const date = new Date(w.date);
+                    date.setHours(0, 0, 0, 0);
+                    return date.getTime();
+                })
+            )].sort((a, b) => b - a);
+
+            let streak = 0;
+            let currentDate = today.getTime();
+
+            for (const workoutDay of workoutDays) {
+                if (workoutDay === currentDate) {
+                    streak++;
+                    currentDate -= 24 * 60 * 60 * 1000;
+                } else if (workoutDay === currentDate + 24 * 60 * 60 * 1000) {
+                    if (streak === 0) {
+                        streak++;
+                        currentDate = workoutDay - 24 * 60 * 60 * 1000;
+                    } else {
+                        break;
+                    }
+                } else {
+                    break;
+                }
+            }
+
+            return streak;
+        }
+
+        showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toastMessage');
+            
+            if (!toast || !toastMessage) return;
+
+            toastMessage.textContent = message;
+            toast.className = `toast ${type}`;
+            toast.classList.add('show');
+
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        formatDate(dateString, short = false) {
+            const date = new Date(dateString);
+            const options = short 
+                ? { month: 'short', day: 'numeric' }
+                : { 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                };
+            
+            return date.toLocaleDateString('de-DE', options);
+        }
+
+        escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+    }
+
+    // Initialize the fitness tracker when DOM is loaded
+    document.addEventListener('DOMContentLoaded', () => {
+        window.tracker = new FitnessTracker();
+    });
+
+    // Service Worker registration for PWA functionality
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/sw.js')
+                .then((registration) => {
+                    console.log('SW registered: ', registration);
+                })
+                .catch((registrationError) => {
+                    console.log('SW registration failed: ', registrationError);
+                });
+        });
+    }
+
+    // Prevent zoom on iOS
+    document.addEventListener('touchstart', function(event) {
+        if (event.touches.length > 1) {
+            event.preventDefault();
+        }
+    }, { passive: false });
+
+    let lastTouchEnd = 0;
+    document.addEventListener('touchend', function(event) {
+        const now = (new Date()).getTime();
+        if (now - lastTouchEnd <= 300) {
+            event.preventDefault();
+        }
+        lastTouchEnd = now;
+    }, false);
+    </script>
 </body>
 </html>
